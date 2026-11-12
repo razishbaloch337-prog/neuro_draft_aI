@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NeuroDraft AI — Global Legal & Official Application Generator</title>
+    <style>
+        :root {
+            --bg-dark: #060b19;
+            --card-bg: rgba(15, 25, 50, 0.92);
+            --neon-blue: #00f0ff;
+            --neon-purple: #b537f2;
+            --neon-border: rgba(0, 240, 255, 0.38);
+            --text-main: #f0f4ff;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            max-width: 100%;
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 240, 255, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(181, 55, 242, 0.15) 0%, transparent 45%);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            line-height: 1.55;
+        }
+
+        body.urdu-mode {
+            font-family: "Jameel Noori Nastaleeq", "Noto Nastaliq Urdu", "Urdu Typesetting", Tahoma, Arial, sans-serif;
+            line-height: 1.95;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        header {
+            text-align: center;
+            padding: 14px 6px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid var(--neon-border);
+        }
+
+        .logo-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            height: 54px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(0,240,255,0.16), rgba(181,55,242,0.22));
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 16px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(181, 55, 242, 0.4);
+            font-size: 25px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-blue);
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 23px;
+            letter-spacing: 0.4px;
+            color: #ffffff;
+            text-shadow: 0 0 14px rgba(0, 240, 255, 0.45);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-top: 4px;
+            padding: 0 6px;
+        }
+
+        .lang-bar {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--neon-border);
+            color: var(--text-main);
+            padding: 7px 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(90deg, rgba(0, 240, 255, 0.25), rgba(181, 55, 242, 0.25));
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.35);
+            color: #fff;
+        }
+
+        .glass-card {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--neon-border);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+        }
+
+        .section-title {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: var(--neon-blue);
+            margin-bottom: 12px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 11px;
+            width: 100%;
+        }
+
+        @media (max-width: 650px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            background: #070d1f;
+            border: 1px solid rgba(0, 240, 255, 0.28);
+            border-radius: 9px;
+            padding: 10px 11px;
+            color: #fff;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        select {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.25);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 78px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 13px;
+            width: 100%;
+        }
+
+        .generate-btn {
+            flex: 3;
+            padding: 12px 8px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #00c6ff, #8a2be2);
+            color: #fff;
+            font-size: 14.5px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.35);
+        }
+
+        .clear-btn {
+            flex: 1;
+            padding: 12px 8px;
+            border: 1px solid rgba(255, 99, 99, 0.45);
+            border-radius: 10px;
+            background: rgba(255, 50, 50, 0.14);
+            color: #fca5a5;
+            font-size: 13.5px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .paper-sheet {
+            width: 100%;
+            background: #ffffff;
+            color: #111827;
+            padding: 20px 15px;
+            border-radius: 9px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            border-top: 4px solid var(--neon-blue);
+            min-height: 250px;
+            outline: none;
+        }
+
+        .paper-placeholder {
+            color: #9ca3af;
+            text-align: center;
+            padding-top: 80px;
+            font-size: 13.5px;
+            user-select: none;
+        }
+
+        body.urdu-mode .paper-sheet {
+            font-size: 16px;
+            line-height: 2.15;
+        }
+
+        .action-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+            width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            .action-bar {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 10px 8px;
+            border-radius: 9px;
+            border: 1px solid var(--neon-border);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .action-btn.whatsapp {
+            border-color: #25D366;
+            color: #4ade80;
+        }
+
+        .ad-slot {
+            width: 100%;
+            text-align: center;
+            margin: 10px 0;
+            min-height: 2px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 11px;
+            margin-top: 16px;
+            padding-bottom: 16px;
+        }
+
+        @media print {
+            body {
+                background: #fff !important;
+                padding: 0 !important;
+            }
+            header, .input-section, .action-bar, .ad-slot, footer, .section-title {
+                display: none !important;
+            }
+            .glass-card {
+                background: none !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .paper-sheet {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 15px !important;
+                font-size: 13pt !important;
+                color: #000 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo-badge">N</div>
+        <h1>NeuroDraft AI</h1>
+        <p class="subtitle" id="subTitle">Global Legal, Judicial, Police & Official Application Engine</p>
+        
+        <div class="lang-bar">
+            <button class="lang-btn active" id="btnEn" onclick="setLanguage('en')">English (Global)</button>
+            <button class="lang-btn" id="btnUr" onclick="setLanguage('ur')">اردو (قانونی و دفتری)</button>
+        </div>
+    </header>
+
+    <!-- GOOGLE ADSENSE TOP SLOT -->
+    <div class="ad-slot" id="ad-top"></div>
+
+    <!-- User Input Section -->
+    <div class="glass-card input-section">
+        <div class="section-title" id="secInputTitle">⚡ 1. Select Department & Enter Details</div>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label id="lblCategory">Department / Sector</label>
+                <select id="categorySelect" onchange="updateTemplates()">
+                    <option value="court">Courts & Legal / عدالت و قانونی امور</option>
+                    <option value="police">Police Station / پولیس اسٹیشن</option>
+                    <option value="gov">Government Offices / سرکاری دفاتر</option>
+                    <option value="corporate">Bank & Corporate / بینک و کارپوریٹ</option>
+                    <option value="school">School & College / تعلیمی ادارے و کلرک</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label id="lblTemplate">Application Type</label>
+                <select id="templateSelect" onchange="clearOutput()"></select>
+            </div>
+
+            <div class="form-group">
+                <label id="lblName">Applicant Full Name</label>
+                <input type="text" id="inpName" spellcheck="false" placeholder="e.g. Muhammad Ahmed">
+            </div>
+
+            <div class="form-group">
+                <label id="lblGuardian">Father's Name / Designation</label>
+                <input type="text" id="inpGuardian" spellcheck="false" placeholder="e.g. S/O Abdul Kareem">
+            </div>
+
+            <div class="form-group">
+                <label id="lblId">CNIC / Passport / Roll No / Case No</label>
+                <input type="text" id="inpId" spellcheck="false" placeholder="e.g. 33100-1234567-1">
+            </div>
+
+            <div class="form-group">
+                <label id="lblPhone">Contact Number</label>
+                <input type="text" id="inpPhone" spellcheck="false" placeholder="e.g. +92 300 1234567">
+            </div>
+
+            <div class="form-group">
+                <label id="lblRecipient">To (Authority / Officer Title)</label>
+                <input type="text" id="inpRecipient" spellcheck="false" placeholder="e.g. The Station House Officer">
+            </div>
+
+            <div class="form-group">
+                <label id="lblOffice">Office / Court / Institution & City</label>
+                <input type="text" id="inpOffice" spellcheck="false" placeholder="e.g. Civil Lines, Faisalabad">
+            </div>
+
+            <div class="form-group">
+                <label id="lblDate">Date</label>
+                <input type="date" id="inpDate">
+            </div>
+
+            <div class="form-group">
+                <label id="lblAddress">Applicant Residential Address</label>
+                <input type="text" id="inpAddress" spellcheck="false" placeholder="e.g. House #12, Model Town">
+            </div>
+
+            <div class="form-group full-width">
+                <label id="lblReason">Specific Incident Details / Core Reason</label>
+                <textarea id="inpReason" spellcheck="false" placeholder="Write key facts, dates, or specific relief requested..."></textarea>
+            </div>
+        </div>
+
+        <div class="btn-row">
+            <button class="generate-btn" id="btnGenerate" onclick="generateDraft()">✨ Generate Legal Draft</button>
+            <button class="clear-btn" id="btnClear" onclick="resetForm()">🗑️ Clear</button>
+        </div>
+    </div>
+
+    <!-- GOOGLE ADSENSE MIDDLE SLOT -->
+    <div class="ad-slot" id="ad-mid"></div>
+
+    <!-- Output Section -->
+    <div class="glass-card">
+        <div class="section-title" id="secOutputTitle">📄 2. Official Legal Document</div>
+        <div class="paper-sheet" id="outputPaper" spellcheck="false"></div>
+        
+        <div class="action-bar">
+            <button class="action-btn" id="btnCopy" onclick="copyDraft()">📋 Copy Text</button>
+            <button class="action-btn" id="btnPrint" onclick="window.print()">🖨️ Print / Save PDF</button>
+            <button class="action-btn whatsapp" id="btnShare" onclick="shareWhatsApp()">📲 Share WhatsApp</button>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 NeuroDraft AI — Universal Legal & Official Drafting Engine. All Rights Reserved.
+    </footer>
+</div>
+
+<script>
+    let currentLang = 'en';
+    let isGenerated = false;
+
+    document.getElementById('inpDate').valueAsDate = new Date();
+
+    const templatesDB = {
+        court: [
+            {
+                id: 'affidavit',
+                enName: 'General Legal Affidavit / Undertaking',
+                urName: 'بیانِ حلفی برائے عدالت و قانونی امور',
+                enRecip: 'The Oath Commissioner / Hon’ble Court',
+                urRecip: 'جناب اوتھ کمشنر صاحب / عدالتِ عالیہ',
+                enBody: (d) => `BEFORE THE HON’BLE COURT / OATH COMMISSIONER
+${d.office}
+
+AFFIDAVIT / SOLEMN DECLARATION
+
+I, ${d.name}, ${d.guardian}, bearing ID/CNIC No. ${d.id}, resident of ${d.address}, do hereby solemnly affirm and declare on oath as under:
+
+1. That the deponent is a law-abiding citizen and fully conversant with the facts deposed herein.
+2. That ${d.reason}.
+3. That the contents of this affidavit are true and correct to the best of my knowledge and belief, and nothing material has been concealed therefrom.
+
+Date: ${d.date}
+
+DEPONENT:
+_________________________
+Name: ${d.name}
+ID/CNIC: ${d.id}
+Contact: ${d.phone}
+
+VERIFICATION:
+Verified on oath at ${d.office} on this ${d.date} that the contents of paragraphs 1 to 3 are true and correct.`,
+                urBody: (d) => `بعدالت جناب ${d.recipient}
+${d.office}
+
+بیانِ حلفی (AFFIDAVIT)
+
+منکہ ${d.name}، ${d.guardian}، شناختی کارڈ نمبر ${d.id}، ساکن ${d.address}، بقائمی ہوش و حواس بلا جبر و اکراہ حلفاً بیان کرتا/کرتی ہوں کہ:
+
+۱۔ یہ کہ من مظہر/مظہرہ قانون پسند شہری ہے اور درج ذیل حقائق سے بخوبی واقف ہے۔
+۲۔ یہ کہ ${d.reason}۔
+۳۔ یہ کہ مندرجہ بالا تمام مراتب میرے علم و یقین کے مطابق بالکل درست و صحیح ہیں اور کوئی امر مخفی نہیں رکھا گیا ہے۔
+
+مورخہ: ${d.date}
+
+المشتہر / بیان حلفی دہندہ:
+_________________________
+نام: ${d.name}
+شناختی کارڈ نمبر: ${d.id}
+موبائل نمبر: ${d.phone}
+
+تصدیق:
+تصدیق کی جاتی ہے کہ بیان حلفی ہذا کی دفعات ۱ تا ۳ میرے علم و یقین کے مطابق درست ہیں۔`
+            },
+            {
+                id: 'adjournment',
+                enName: 'Application for Adjournment / Exemption',
+                urName: 'درخواست برائے التوائے پیشی / حاضری معافی',
+                enRecip: 'The Hon’ble Civil Judge / Magistrate',
+                urRecip: 'جناب سول جج / مجسٹریٹ صاحب',
+                enBody: (d) => `IN THE COURT OF ${d.recipient.toUpperCase()}
+${d.office}
+
+Case / Reference No: ${d.id}
+
+Subject: APPLICATION FOR EXEMPTION FROM PERSONAL APPEARANCE & ADJOURNMENT
+
+Respectfully Sheweth:
+
+1. That the above-titled matter is fixed for hearing today, i.e., ${d.date}, before this Hon’ble Court.
+2. That the applicant/petitioner is unable to attend the Court personally due to the following unavoidable circumstances: ${d.reason}.
+3. That the absence of the applicant is neither intentional nor willful, but solely due to the reason stated above.
+
+PRAYER:
+It is, therefore, respectfully prayed that personal appearance of the applicant for today may kindly be exempted and the matter may graciously be adjourned to another suitable date in the interest of justice.
+
+Dated: ${d.date}
+
+Applicant:
+${d.name} (${d.guardian})
+Address: ${d.address}
+Contact: ${d.phone}`,
+                urBody: (d) => `بعدالت جناب ${d.recipient}
+${d.office}
+
+مقدمہ / حوالہ نمبر: ${d.id}
+
+عنوان: درخواست برائے حاضری معافی و التوائے پیشی
+
+جناب عالی!
+
+مؤدبانہ گزارش ہے کہ:
+۱۔ مقدمہ عنوان بالا آج مورخہ ${d.date} کو جناب کی عدالتِ عالیہ میں سماعت کے لیے مقرر ہے۔
+۲۔ سائل ناگزیر وجوہات کی بناء پر آج عدالت میں بذاتِ خود حاضر ہونے سے قاصر ہے جس کی تفصیل یہ ہے: ${d.reason}۔
+۳۔ سائل کی غیر حاضری دانستہ یا ارادتاً نہیں بلکہ محض مجبوری کے تحت ہے۔
+
+استدعا:
+لہٰذا استدعا ہے کہ سائل کی آج کی حاضری معاف فرمائی جائے اور انصاف کے تقاضوں کو مدنظر رکھتے ہوئے آئندہ کوئی مناسب تاریخ پیشی مقرر فرمائی جائے۔ عین نوازش ہوگی۔
+
+مورخہ: ${d.date}
+
+العرض:
+${d.name} (${d.guardian})
+پتہ: ${d.address}
+فون نمبر: ${d.phone}`
+            }
+        ],
+        police: [
+            {
+                id: 'fir',
+                enName: 'Application for Registration of FIR',
+                urName: 'درخواست برائے اندراجِ مقدمہ (FIR)',
+                enRecip: 'The Station House Officer (SHO)',
+                urRecip: 'جناب ایس ایچ او (SHO) صاحب',
+                enBody: (d) => `To,
+${d.recipient},
+${d.office}.
+
+Subject: APPLICATION FOR REGISTRATION OF FIR AND LEGAL ACTION AGAINST ACCUSED
+
+Respected Sir/Madam,
+
+I, ${d.name}, ${d.guardian}, holding CNIC/ID No. ${d.id}, resident of ${d.address}, respectfully submit as under:
+
+1. That I am a peaceful and law-abiding citizen residing at the aforementioned address.
+2. That the incident occurred as follows: ${d.reason}.
+3. That the said act constitutes a cognizable offense under the prevailing criminal law, causing severe loss and mental agony to the applicant.
+
+PRAYER:
+It is, therefore, requested that an FIR may kindly be registered immediately against the culprits, and strict legal action be initiated to recover the loss and provide justice to the applicant.
+
+Dated: ${d.date}
+
+Yours faithfully,
+_________________________
+Name: ${d.name}
+CNIC/ID: ${d.id}
+Address: ${d.address}
+Contact: ${d.phone}`,
+                urBody: (d) => `بخدمت جناب ${d.recipient}
+${d.office}
+
+عنوان: درخواست برائے اندراجِ مقدمہ (FIR) و قانونی کارروائی
+
+جناب عالی!
+
+مؤدبانہ گزارش ہے کہ سائل ${d.name}، ${d.guardian}، شناختی کارڈ نمبر ${d.id}، ساکن ${d.address} کا مستقل رہائشی ہے۔
+
+واقعہ کی تفصیل یہ ہے کہ ${d.reason}۔ ملزمان کا یہ اقدام صریحاً قانون کی خلاف ورزی اور قابلِ دست اندازی پولیس جرم ہے، جس سے سائل کو شدید مالی و ذہنی نقصان پہنچا ہے۔
+
+استدعا:
+لہٰذا جناب سے پرزور گزارش ہے کہ فوری طور پر واقعہ کا مقدمہ (FIR) درج کر کے ملزمان کے خلاف سخت قانونی کارروائی عمل میں لائی جائے اور سائل کو انصاف فراہم کیا جائے۔ عین نوازش ہوگی۔
+
+مورخہ: ${d.date}
+
+العرض:
+_________________________
+نام: ${d.name}
+ولدیت: ${d.guardian}
+شناختی کارڈ نمبر: ${d.id}
+مکمل پتہ: ${d.address}
+موبائل نمبر: ${d.phone}`
+            },
+            {
+                id: 'lost',
+                enName: 'Lost Document / Mobile / CNIC Report',
+                urName: 'رپورٹ گمشدگی (شناختی کارڈ، موبائل یا کاغذات)',
+                enRecip: 'The Incharge Reporting Room / SHO',
+                urRecip: 'جناب انچارج رپورٹنگ روم / ایس ایچ او صاحب',
+                enBody: (d) => `To,
+${d.recipient},
+${d.office}.
+
+Subject: REPORT REGARDING LOSS OF IMPORTANT DOCUMENTS / ITEM
+
+Respected Sir/Madam,
+
+I, ${d.name}, ${d.guardian}, holding ID No. ${d.id}, resident of ${d.address}, wish to report that my important document/item has been lost. The details are given below:
+
+Details of Loss: ${d.reason}.
+
+Despite diligent search, the lost item/document could not be traced. I need an official police report (Roznamcha/Rapat) for the issuance of a duplicate document and to prevent any misuse.
+
+Kindly enter this report in the daily diary and issue a certified copy thereof.
+
+Dated: ${d.date}
+
+Applicant:
+${d.name}
+ID/CNIC: ${d.id}
+Contact: ${d.phone}`,
+                urBody: (d) => `بخدمت جناب ${d.recipient}
+${d.office}
+
+عنوان: درخواست برائے اندراجِ رپورٹ گمشدگی
+
+جناب عالی!
+
+گزارش ہے کہ سائل ${d.name}، ${d.guardian}، شناختی کارڈ نمبر ${d.id}، ساکن ${d.address} کے ضروری کاغذات / اشیاء گم ہو گئی ہیں جن کی تفصیل درج ذیل ہے:
+
+تفصیل گمشدگی: ${d.reason}۔
+
+سائل نے اپنی سطح پر کافی تلاش کیا لیکن مذکورہ اشیاء/کاغذات نہ مل سکے۔ نئے کاغذات بنوانے اور کسی بھی ممکنہ غلط استعمال سے بچنے کے لیے پولیس رپٹ درج کروانا ضروری ہے۔
+
+لہٰذا استدعا ہے کہ روزنامچہ میں رپورٹ گمشدگی درج فرما کر نقل فراہم کی جائے۔ عین نوازش ہوگی۔
+
+مورخہ: ${d.date}
+
+العرض:
+${d.name}
+شناختی کارڈ نمبر: ${d.id}
+پتہ: ${d.address}
+موبائل نمبر: ${d.phone}`
+            }
+        ],
+        gov: [
+            {
+                id: 'utility',
+                enName: 'Utility Complaint / Municipal Application',
+                urName: 'درخواست برائے سرکاری محکمہ (واپڈا، گیس، نادرا)',
+                enRecip: 'The Executive Engineer / Deputy Director',
+                urRecip: 'جناب ایکسیئن / ڈپٹی ڈائریکٹر صاحب',
+                enBody: (d) => `To,
+${d.recipient},
+${d.office}.
+
+Consumer / Reference No: ${d.id}
+
+Subject: OFFICIAL COMPLAINT / REQUEST FOR NECESSARY ACTION
+
+Respected Sir/Madam,
+
+I, ${d.name} (${d.guardian}), resident of ${d.address}, bring to your kind notice the following urgent matter regarding Reference No. ${d.id}:
+
+${d.reason}.
+
+Due to this issue, we are facing severe inconvenience. Relevant supporting documents are attached herewith for your kind perusal.
+
+You are earnestly requested to issue necessary directives to the concerned staff for prompt resolution of this matter.
+
+Dated: ${d.date}
+
+Yours sincerely,
+${d.name}
+Address: ${d.address}
+Phone: ${d.phone}`,
+                urBody: (d) => `بخدمت جناب ${d.recipient}
+${d.office}
+
+صارف / حوالہ نمبر: ${d.id}
+
+عنوان: درخواست برائے فوری حلِ مسئلہ و ضروری کارروائی
+
+جناب عالی!
+
+مؤدبانہ گزارش ہے کہ سائل ${d.name} (${d.guardian})، رہائشی ${d.address}، آپ کی توجہ درج ذیل اہم مسئلے کی جانب مبذول کروانا چاہتا ہے:
+
+تفصیلِ مسئلہ: ${d.reason}۔
+
+اس مسئلے کی وجہ سے شدید مشکلات کا سامنا ہے۔ تمام ضروری دستاویزات کی نقول درخواست ہذا کے ہمراہ لف ہیں۔
+
+لہٰذا استدعا ہے کہ متعلقہ عملے کو فوری احکامات جاری فرما کر ہمارا مسئلہ حل کروایا جائے۔ عین نوازش ہوگی۔
+
+مورخہ: ${d.date}
+
+العرض:
+${d.name}
+پتہ: ${d.address}
+رابطہ نمبر: ${d.phone}`
+            }
+        ],
+        corporate: [
+            {
+                id: 'bank',
+                enName: 'Bank Account / Cheque Book Request',
+                urName: 'بینک مینیجر کے نام درخواست (اکاؤنٹ، چیک بک)',
+                enRecip: 'The Branch Manager',
+                urRecip: 'جناب برانچ مینیجر صاحب',
+                enBody: (d) => `To,
+${d.recipient},
+${d.office}.
+
+Account / CNIC No: ${d.id}
+
+Subject: REQUEST REGARDING BANK ACCOUNT SERVICES
+
+Dear Sir/Madam,
+
+I am maintaining an account with your esteemed branch under the title "${d.name}" (Account/ID No: ${d.id}).
+
+I am writing to formally request you regarding the following matter:
+${d.reason}.
+
+My registered address is ${d.address} and contact number is ${d.phone}. Kindly process my request at your earliest convenience.
+
+Thank you for your cooperation.
+
+Dated: ${d.date}
+
+Yours faithfully,
+_________________________
+${d.name}
+Account/ID: ${d.id}
+Phone: ${d.phone}`,
+                urBody: (d) => `بخدمت جناب ${d.recipient}
+${d.office}
+
+اکاؤنٹ / شناختی کارڈ نمبر: ${d.id}
+
+عنوان: درخواست برائے بینک اکاؤنٹ سروسز
+
+جناب عالی!
+
+گزارش ہے کہ میرا آپ کی برانچ میں اکاؤنٹ نمبر / شناختی کارڈ نمبر ${d.id} بنام ${d.name} موجود ہے۔
+
+مجھے اپنے اکاؤنٹ کے حوالے سے درج ذیل کام درکار ہے:
+${d.reason}۔
+
+براہِ کرم قواعد و ضوابط کے مطابق میری درخواست پر فوری کارروائی فرمائی جائے۔ عین نوازش ہوگی۔
+
+مورخہ: ${d.date}
+
+المشتہر:
+_________________________
+نام اکاؤنٹ ہولڈر: ${d.name}
+پتہ: ${d.address}
+موبائل نمبر: ${d.phone}`
+            },
+            {
+                id: 'job',
+                enName: 'Formal Job / Appointment Application',
+                urName: 'درخواست برائے ملازمت (Job Application)',
+                enRecip: 'The Human Resources Manager / Director',
+                urRecip: 'جناب ڈائریکٹر / ایچ آر مینیجر صاحب',
+                enBody: (d) => `To,
+${d.recipient},
+${d.office}.
+
+Subject: APPLICATION FOR EMPLOYMENT
+
+Respected Sir/Madam,
+
+With due respect, I wish to apply for a suitable position in your esteemed organization. My brief particulars are as under:
+
+Name: ${d.name}
+Father's Name: ${d.guardian}
+ID/CNIC No: ${d.id}
+Qualification & Experience Details: ${d.reason}
+
+I assure you that if given an opportunity, I will perform my duties with utmost dedication, honesty, and professionalism. My detailed CV and testimonials are enclosed herewith.
+
+Dated: ${d.date}
+
+Yours obediently,
+${d.name}
+Address: ${d.address}
+Contact: ${d.phone}`,
+                urBody: (d) => `بخدمت جناب ${d.recipient}
+${d.office}
+
+عنوان: درخواست برائے ملازمت
+
+جناب عالی!
+
+نہایت ادب سے گزارش ہے کہ مجھے معتبر ذرائع سے معلوم ہوا ہے کہ آپ کے ادارے میں اسامی خالی ہے۔ میں اس عہدے کے لیے اپنی خدمات پیش کرنا چاہتا/چاہتی ہوں۔
+
+میری تعلیمی قابلیت اور تجربے کی تفصیل درج ذیل ہے:
+${d.reason}۔
+
+اگر مجھے خدمت کا موقع دیا گیا تو میں پوری ایمانداری، محنت اور لگن سے اپنے فرائض سرانجام دوں گا/گی۔ تمام اسناد کی نقول درخواست کے ہمراہ منسلک ہیں۔
+
+مورخہ: ${d.date}
+
+العارض:
+${d.name} (${d.guardian})
+شناختی کارڈ نمبر: ${d.id}
+پتہ: ${d.address}
+رابطہ نمبر: ${d.phone}`
+            }
+        ],
+        school: [
+            {
+                id: 'admin_leave',
+                enName: 'Official Leave / Certificate / Transfer',
+                urName: 'درخواست برائے رخصت / سرٹیفکیٹ / تبادلہ',
+                enRecip: 'The Principal / Education Officer',
+                urRecip: 'جناب پرنسپل / ایجوکیشن آفیسر صاحب',
+                enBody: (d) => `To,
+${d.recipient},
+${d.office}.
+
+Roll No / Personnel ID: ${d.id}
+
+Subject: OFFICIAL APPLICATION FOR LEAVE / CERTIFICATE
+
+Respected Sir/Madam,
+
+Most respectfully, it is stated that I, ${d.name} (${d.guardian}), bearing ID/Roll No. ${d.id}, submit the following request for your kind consideration:
+
+${d.reason}.
+
+Kindly grant approval and issue necessary orders in this regard. I shall be highly obliged to you.
+
+Dated: ${d.date}
+
+Yours obediently,
+${d.name}
+ID/Roll No: ${d.id}
+Address: ${d.address}
+Contact: ${d.phone}`,
+                urBody: (d) => `بخدمت جناب ${d.recipient}
+${d.office}
+
+رول نمبر / پرسنل آئی ڈی: ${d.id}
+
+عنوان: درخواست برائے رخصت / سرٹیفکیٹ / دفتری کارروائی
+
+جناب عالی!
+
+مؤدبانہ گزارش ہے کہ فدوی / سائل ${d.name} (${d.guardian})، شناختی نمبر ${d.id}، آپ کے ادارے سے منسلک ہے۔
+
+گزارش کی تفصیل یہ ہے کہ ${d.reason}۔
+
+لہٰذا جناب سے التماس ہے کہ میری درخواست منظور فرماتے ہوئے ضروری احکامات صادر فرمائیں۔ عین نوازش ہوگی۔
+
+مورخہ: ${d.date}
+
+العارض:
+${d.name}
+رول نمبر / آئی ڈی: ${d.id}
+پتہ: ${d.address}
+موبائل نمبر: ${d.phone}`
+            }
+        ]
+    };
+
+    const uiStrings = {
+        en: {
+            subTitle: "Global Legal, Judicial, Police & Official Application Engine",
+            secInputTitle: "⚡ 1. Select Department & Enter Details",
+            lblCategory: "Department / Sector",
+            lblTemplate: "Application Type",
+            lblName: "Applicant Full Name",
+            lblGuardian: "Father's Name / Designation",
+            lblId: "CNIC / Passport / Roll No / Case No",
+            lblPhone: "Contact Number",
+            lblRecipient: "To (Authority / Officer Title)",
+            lblOffice: "Office / Court / Institution & City",
+            lblDate: "Date",
+            lblAddress: "Applicant Residential Address",
+            lblReason: "Specific Incident Details / Core Reason",
+            btnGenerate: "✨ Generate Legal Draft",
+            btnClear: "🗑️ Clear",
+            secOutputTitle: "📄 2. Official Legal Document",
+            btnCopy: "📋 Copy Text",
+            btnPrint: "🖨️ Print / Save PDF",
+            btnShare: "📲 Share WhatsApp",
+            placeholderMsg: "Fill in your details above and click 'Generate Legal Draft' to view your clean document here."
+        },
+        ur: {
+            subTitle: "دنیا بھر کے دفاتر، عدالتوں، پولیس اور اداروں کے لیے خودکار قانونی درخواست ساز نظام",
+            secInputTitle: "⚡ ۱۔ متعلقہ محکمہ منتخب کریں اور تفصیلات درج کریں",
+            lblCategory: "محکمہ / شعبہ منتخب کریں",
+            lblTemplate: "درخواست کی قسم",
+            lblName: "درخواست گزار کا مکمل نام",
+            lblGuardian: "ولدیت / عہدہ",
+            lblId: "شناختی کارڈ / مقدمہ / رول نمبر",
+            lblPhone: "موبائل / رابطہ نمبر",
+            lblRecipient: "بخدمت (افسر یا عہدے کا نام)",
+            lblOffice: "دفتر / عدالت / تھانہ / ادارے کا نام اور شہر",
+            lblDate: "تاریخ",
+            lblAddress: "مکمل رہائشی پتہ",
+            lblReason: "واقعہ یا درخواست کی اصل وجہ مختصر لکھیں",
+            btnGenerate: "✨ درخواست تیار کریں",
+            btnClear: "🗑️ صاف کریں",
+            secOutputTitle: "📄 ۲۔ پرنٹ کے لیے تیار قانونی و دفتری درخواست",
+            btnCopy: "📋 تحریر کاپی کریں",
+            btnPrint: "🖨️ پرنٹ / PDF بنائیں",
+            btnShare: "📲 واٹس ایپ پر بھیجیں",
+            placeholderMsg: "اوپر دیے گئے خانوں میں اپنی معلومات درج کریں اور 'درخواست تیار کریں' کا بٹن دبائیں، آپ کی درخواست یہاں ظاہر ہوگی۔"
+        }
+    };
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ur' ? 'rtl' : 'ltr';
+        document.body.className = lang === 'ur' ? 'urdu-mode' : '';
+
+        document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+        document.getElementById('btnUr').classList.toggle('active', lang === 'ur');
+
+        const s = uiStrings[lang];
+        for (let key in s) {
+            const el = document.getElementById(key);
+            if (el) el.innerText = s[key];
+        }
+
+        updateTemplates();
+        if (isGenerated) {
+            generateDraft();
+        } else {
+            clearOutput();
+        }
+    }
+
+    function updateTemplates() {
+        const cat = document.getElementById('categorySelect').value;
+        const select = document.getElementById('templateSelect');
+        select.innerHTML = '';
+
+        templatesDB[cat].forEach((tpl, index) => {
+            const opt = document.createElement('option');
+            opt.value = index;
+            opt.innerText = currentLang === 'ur' ? tpl.urName : tpl.enName;
+            select.appendChild(opt);
+        });
+
+        const firstTpl = templatesDB[cat][0];
+        document.getElementById('inpRecipient').placeholder = currentLang === 'ur' ? firstTpl.urRecip : firstTpl.enRecip;
+    }
+
+    function clearOutput() {
+        isGenerated = false;
+        const paper = document.getElementById('outputPaper');
+        paper.innerHTML = `<div class="paper-placeholder">${uiStrings[currentLang].placeholderMsg}</div>`;
+    }
+
+    function resetForm() {
+        ['inpName', 'inpGuardian', 'inpId', 'inpPhone', 'inpRecipient', 'inpOffice', 'inpAddress', 'inpReason'].forEach(id => {
+            document.getElementById(id).value = '';
+        });
+        document.getElementById('inpDate').valueAsDate = new Date();
+        clearOutput();
+    }
+
+    function generateDraft() {
+        const cat = document.getElementById('categorySelect').value;
+        const tplIndex = document.getElementById('templateSelect').value || 0;
+        const tpl = templatesDB[cat][tplIndex];
+
+        const blankLine = "____________________";
+        const blankLong = "__________________________________________________";
+
+        const data = {
+            name: document.getElementById('inpName').value.trim() || blankLine,
+            guardian: document.getElementById('inpGuardian').value.trim() || blankLine,
+            id: document.getElementById('inpId').value.trim() || blankLine,
+            phone: document.getElementById('inpPhone').value.trim() || blankLine,
+            recipient: document.getElementById('inpRecipient').value.trim() || (currentLang === 'ur' ? tpl.urRecip : tpl.enRecip),
+            office: document.getElementById('inpOffice').value.trim() || blankLine,
+            date: document.getElementById('inpDate').value || new Date().toISOString().split('T')[0],
+            address: document.getElementById('inpAddress').value.trim() || blankLine,
+            reason: document.getElementById('inpReason').value.trim() || blankLong
+        };
+
+        const draftText = currentLang === 'ur' ? tpl.urBody(data) : tpl.enBody(data);
+        const paper = document.getElementById('outputPaper');
+        paper.innerText = draftText;
+        isGenerated = true;
+    }
+
+    function copyDraft() {
+        if (!isGenerated) {
+            alert(currentLang === 'ur' ? 'پہلے اوپر معلومات درج کر کے درخواست تیار کریں!' : 'Please generate a draft first!');
+            return;
+        }
+        const text = document.getElementById('outputPaper').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert(currentLang === 'ur' ? 'درخواست کاپی ہو گئی ہے!' : 'Legal draft copied to clipboard!');
+        });
+    }
+
+    function shareWhatsApp() {
+        if (!isGenerated) {
+            alert(currentLang === 'ur' ? 'پہلے اوپر معلومات درج کر کے درخواست تیار کریں!' : 'Please generate a draft first!');
+            return;
+        }
+        const text = encodeURIComponent(document.getElementById('outputPaper').innerText);
+        window.open(`https://wa.me/?text=${text}`, '_blank');
+    }
+
+    updateTemplates();
+    clearOutput();
+</script>
+
+</body>
+</html>
